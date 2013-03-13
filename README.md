@@ -1,29 +1,41 @@
-# XiamiSauce
+# 虾米酱 - XiamiSauce
 
-TODO: Write a gem description
+虾米酱是一个虾米音乐下载器。封装成为一个 Ruby Gem 包。
 
-## Installation
+XiamiSauce is a downloader of Xiami Music. Writed in Ruby, and presented as a Gem.
 
-Add this line to your application's Gemfile:
+## Why
 
-    gem 'xiami_sauce'
+You know, if you know it.
 
-And then execute:
+## 依赖 - Dependency
 
-    $ bundle
+虾米酱在 Ruby 1.9.2, 1.9.3, 2.0.0, jRuby, REE 环境下测试。
+XiamiSauce will be tested under Ruby 1.9.2, 1.9.3, 2.0.0, jRuby, REE.
 
-Or install it yourself as:
+依赖 Thor, Nokogiri 的 Gem 包。
+Depend on Gems Thor and Nokogiri.
 
-    $ gem install xiami_sauce
+## 安装 - Installation
 
-## Usage
+一句话安装 - Install it with one-line code:
 
-TODO: Write usage instructions here
+    $ gem install xiami_sauce --no-ri --no-doc
 
-## Contributing
+## 使用方法 - Usage
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+    $ xsauce http://www.xiami.com/artist/64360
+    $ xsauce http://www.xiami.com/album/355791
+    $ xsauce http://www.xiami.com/song/184616
+
+虾米酱会按照歌曲信息下载到 `[artist]/[album]/[index].[song].mp3`。
+
+XiamiSauce will download to `[artist]/[album]/[index].[song].mp3`.
+
+## 参与 - Contributing
+
+1. 派生 - Fork it
+2. 新建特性分支 - Create your feature branch (`git checkout -b my-new-feature`)
+3. 提交你的修改 - Commit your changes (`git commit -am 'Add some feature'`)
+4. 推送特性分支 - Push to the branch (`git push origin my-new-feature`)
+5. 发起合并请求 - Create new Pull Request
