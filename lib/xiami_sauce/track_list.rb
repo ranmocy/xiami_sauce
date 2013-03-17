@@ -1,10 +1,11 @@
 require 'nokogiri'
+require_relative 'track'
 
 module XiamiSauce
   class URLParseError < StandardError; end
   class FetchDocError < StandardError; end
 
-  class FetchList
+  class TrackList
     attr :uri, :type, :list, :doc
 
     def initialize(url)
