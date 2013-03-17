@@ -1,5 +1,3 @@
-require "xiami_sauce/version"
-
-module XiamiSauce
-  # Your code goes here...
-end
+require 'xiami_sauce/fetch_list'
+require 'xiami_sauce/mp3_location'
+require 'xiami_sauce/cli'
