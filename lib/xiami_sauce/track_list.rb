@@ -6,7 +6,7 @@ module XiamiSauce
   class FetchDocError < StandardError; end
 
   class TrackList
-    attr :uri, :type, :list, :doc
+    attr_accessor :uri, :type, :list, :doc
 
     def initialize(url)
       @uri  = URI.parse(url)
