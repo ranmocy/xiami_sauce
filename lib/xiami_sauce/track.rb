@@ -35,25 +35,11 @@ module XiamiSauce
       xml     = site.get2(url_str.path,{'accept'=>'text/html'}).body
       doc     = Nokogiri::XML(xml)
 
-      # Song
-      @name        = doc.at_css('song_name').content
-      @location    = doc.at_css('location').content
+      doc.css('track *').each do |element|
+        instance_variable_set("@#{element.name}", element.content)
+      end
+      @name        = @song_name
       @url         = sospa(@location)
-
-      # Album
-      @album_id    = doc.at_css('album_id').content
-      @album_cover = doc.at_css('album_cover').content
-      @album_name  = doc.at_css('album_name').content
-
-      # Artist
-      @artist_id   = doc.at_css('artist_id').content
-      @artist_name = doc.at_css('artist_name').content
-
-      # Widget
-      # @user_id     = doc.at_css('user_id').content
-      # @width       = doc.at_css('width').content
-      # @height      = doc.at_css('height').content
-      # @widgetCode  = doc.at_css('widgetCode').content
     end
 
     def sospa(location)
