@@ -1,7 +1,7 @@
 require "cgi"
 
 module XiamiSauce
-  class Song
+  class Track
     attr_reader :url, :index, :track, :album, :artist
 
     def initialize(song_url, index=nil)
@@ -15,10 +15,14 @@ module XiamiSauce
       "[#{artist}-#{album}]#{index.to_s.rjust(2, '0')}.#{track}.mp3"
     end
 
+    def info_src
+      @info_src ||= "http://www.xiami.com/widget/xml-single/uid/0/sid/#{@song_id}"
+    end
+
+
     private
 
     def parse_info
-      info_src = "http://www.xiami.com/widget/xml-single/uid/0/sid/#{@song_id}"
       url_str = URI.parse(info_src)
       site = Net::HTTP.new(url_str.host, url_str.port)
       xml = site.get2(url_str.path,{'accept'=>'text/html'}).body
