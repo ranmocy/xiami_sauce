@@ -32,7 +32,7 @@ module XiamiSauce
       path = (target_path && Pathname.new(target_path.to_s).exists?) || Pathname.new("./")
 
       puts "Downloading #{@list.size} tracks..."
-      count = @list.uniq!.inject(0) do |count, track|
+      count = @list.uniq.inject(0) do |count, track|
         count += 1 if track.download
       end
       puts "Downloaded #{count}/#{@list.size} tracks."

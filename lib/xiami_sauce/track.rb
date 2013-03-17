@@ -1,4 +1,7 @@
 require "cgi"
+require 'net/http'
+require 'nokogiri'
+require_relative 'downloader'
 
 module XiamiSauce
   class Track
@@ -16,6 +19,12 @@ module XiamiSauce
       parse_info
     end
 
+    def download(parent_path=nil)
+      file = Pathname('.').join((parent_path || album_name), url.split('/').last)
+      @downloader = Downloader.new(url, file)
+      @downloader.download
+    end
+
     def file_name
       index_string = index ? index.to_s.rjust(2, '0') + '.' : ''
       "[#{artist_name}-#{album_name}]#{index_string}#{name}.mp3"
@@ -28,7 +37,6 @@ module XiamiSauce
 
     private
 
-    # @todo should be refactoried by reflection pattern.
     def parse_info
       url_str = URI.parse(info_src)
       site    = Net::HTTP.new(url_str.host, url_str.port)
