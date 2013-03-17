@@ -1,7 +1,7 @@
 require "cgi"
 
 module XiamiSauce
-  class Mp3
+  class Song
     attr_reader :url, :index, :track, :album, :artist
 
     def initialize(song_url, index=nil)
