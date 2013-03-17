@@ -21,7 +21,7 @@ namespace :spec do
   end
 end
 
-task :default => 'spec:platforms'
+task default: 'spec:platforms'
 
 desc 'Push everywhere!'
 task :publish do
