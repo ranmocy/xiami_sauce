@@ -4,10 +4,15 @@ require 'nokogiri'
 
 module XiamiSauce
   class URLParseError  < StandardError; end
-  class FetchDocError  < StandardError; end
+  class DocParseError  < StandardError; end
   class InvalidURLType < StandardError; end
 
   class TrackList
+    SONG_SELECTOR        = nil
+    ALBUM_SELECTOR       = "div#track.album_tracks table.track_list tr td.song_name"
+    ARTIST_SELECTOR      = "div#artist_trends table.track_list td.song_name"
+    SHOWCOLLECT_SELECTOR = "div#list_collect div.quote_song_list li span.song_name"
+
     attr_accessor :list
 
     def initialize(url=nil)
@@ -18,13 +23,8 @@ module XiamiSauce
     def parse(url)
       @uri, @type = parse_url(url)
       @doc        = parse_doc(@uri)
-
-      parse_method = "parse_from_#{@type}"
-      unless respond_to? parse_method, true # true for search inside private methods
-        raise InvalidURLType, "#{@type} isn't a supported URL type. Check your URL."
-      end
-
-      @list += send(parse_method).collect { |url| Track.new(url.to_s) }
+      urls        = parse_info_from_doc(selector(@type))
+      @list       += urls.collect { |url| Track.new(url) }
       self
     end
 
@@ -32,7 +32,7 @@ module XiamiSauce
       path = (target_path && Pathname.new(target_path.to_s).exists?) || Pathname.new("./")
 
       puts "Downloading #{@list.size} tracks..."
-      count = @list.inject(0) do |count, track|
+      count = @list.uniq!.inject(0) do |count, track|
         count += 1 if track.download
       end
       puts "Downloaded #{count}/#{@list.size} tracks."
@@ -43,7 +43,6 @@ module XiamiSauce
     def to_a
       @list
     end
-    alias_method :to_ary, :to_a
 
     def method_missing(method_name, *args)
       @list.send(method_name, *args)
@@ -66,30 +65,20 @@ module XiamiSauce
       xml = site.get2(uri.path, {'accept' => 'text/html', 'user-agent' => 'Mozilla/5.0'}).body
       Nokogiri::HTML(xml)
     rescue Exception => e
-      raise FetchDocError, e.message
+      raise DocParseError, e.message
     end
 
+    def parse_info_from_doc(selector)
+      return [@uri.to_s] unless selector
+      @doc.css(selector).collect { |element| element.css("a").first["href"] }
+    end
 
-    def parse_from_album
-      @doc.css("div#track.album_tracks table.track_list tr td.song_name").collect do |element|
-        element.css("a").first["href"]
+    def selector(type)
+      selector_name = "#{type.to_s.upcase}_SELECTOR"
+      unless self.class.const_defined?(selector_name)
+        raise InvalidURLType, "#{type} isn't a supported URL type. Check your URL."
       end
-    end
-
-    def parse_from_showcollect
-      @doc.css("div#list_collect div.quote_song_list li span.song_name").collect do |element|
-        element.css("a").first["href"]
-      end
-    end
-
-    def parse_from_artist
-      @doc.css("div#artist_trends table.track_list td.song_name").collect do |element|
-        element.css("a").first["href"]
-      end
-    end
-
-    def parse_from_song
-      [@uri.to_s]
+      self.class.const_get(selector_name)
     end
 
   end
