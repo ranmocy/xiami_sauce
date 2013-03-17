@@ -1,5 +1,10 @@
 # 虾米酱 - XiamiSauce
 
+[![Gem Version](https://badge.fury.io/rb/xiami_sauce.png)](http://badge.fury.io/rb/xiami_sauce)
+[![Build Status](https://travis-ci.org/ranmocy/xiami_sauce.png)](https://travis-ci.org/ranmocy/xiami_sauce)
+[![Dependency Status](https://gemnasium.com/ranmocy/xiami_sauce.png)](https://gemnasium.com/ranmocy/xiami_sauce)
+[![Code Climate](https://codeclimate.com/github/ranmocy/xiami_sauce.png)](https://codeclimate.com/github/ranmocy/xiami_sauce)
+
 虾米酱是一个虾米音乐下载器。封装成为一个 Ruby Gem 包。
 
 XiamiSauce is a downloader of Xiami Music. Writed in Ruby, and presented as a Gem.
