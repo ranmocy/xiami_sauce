@@ -23,5 +23,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake"
   spec.add_development_dependency 'version'
   spec.add_development_dependency 'rspec'
-  spec.add_development_dependency 'mocha', '~> 0.12.10'
+  spec.add_development_dependency 'mocha', '~> 0.13.0'
 end
