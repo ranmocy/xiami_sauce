@@ -1,6 +1,9 @@
 require 'nokogiri'
 
 module XiamiSauce
+  class URLParseError < StandardError; end
+  class FetchDocError < StandardError; end
+
   class FetchList
     attr :uri, :type, :list, :doc
 
@@ -8,24 +11,22 @@ module XiamiSauce
       @uri  = URI.parse(url)
       @type = @uri.path.split('/')[1].to_sym
       @list = []
-    rescue
-      raise "URL parse error"
+    rescue Exception => e
+      raise URLParseError, e.message
     end
 
-    def get_doc
+    def fetch_doc
       site = Net::HTTP.new(@uri.host, @uri.port)
       xml = site.get2(@uri.path, {'accept'=>'text/html', 'user-agent'=>'Mozilla/5.0'}).body
       @doc = Nokogiri::HTML(xml)
+    rescue Exception => e
+      raise FetchDocError, e.message
     end
 
     def get
-      get_doc
+      fetch_doc
 
-      if type = :song
-        @list << @uri.to_s
-      else
-        @list += "parse_#{}"
-      end
+      @list += send("parse_#{@type}")
 
       case @url
       when /album/
@@ -49,22 +50,26 @@ module XiamiSauce
 
     private
 
-    def parse_album(doc)
+    def parse_album
       doc.css("div[id='track'] table.track_list tr").collect do |element|
         element.at_css("td.song_name a")["href"]
       end
     end
 
-    def parse_showcollect(doc)
+    def parse_showcollect
       doc.css("div[id='list_collect'] div.quote_song_list li .song_name").collect do |element|
         element.css("a").first["href"]
       end
     end
 
-    def parse_artist(doc)
+    def parse_artist
       doc.css("table.track_list td.song_name").collect do |element|
         element.css("a").first["href"]
       end
+    end
+
+    def parse_song
+      [@uri.to_s]
     end
 
   end
