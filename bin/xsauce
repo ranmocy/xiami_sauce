@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+begin
+  require "xiami_sauce"
+rescue
+  require "rubygems"
+  require "xiami_sauce"
+end
+
+XiamiSauce::CLI.start
