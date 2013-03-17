@@ -28,6 +28,7 @@ module XiamiSauce
 
     private
 
+    # @todo should be refactoried by reflection pattern.
     def parse_info
       url_str = URI.parse(info_src)
       site    = Net::HTTP.new(url_str.host, url_str.port)
