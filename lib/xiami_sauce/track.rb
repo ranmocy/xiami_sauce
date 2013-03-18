@@ -38,10 +38,10 @@ module XiamiSauce
     private
 
     def parse_info
-      url_str = URI.parse(info_src)
-      site    = Net::HTTP.new(url_str.host, url_str.port)
-      xml     = site.get2(url_str.path,{'accept'=>'text/html'}).body
-      doc     = Nokogiri::XML(xml)
+      uri  = URI.parse(info_src)
+      site = Net::HTTP.new(uri.host, uri.port)
+      xml  = site.get2(uri.path,{'accept' => 'text/html', 'user-agent' => 'Mozilla/5.0'}).body
+      doc  = Nokogiri::XML(xml)
 
       doc.css('track *').each do |element|
         instance_variable_set("@#{element.name}", element.content)
@@ -50,56 +50,25 @@ module XiamiSauce
       @url         = sospa(@location)
     end
 
+    # Rewrite the algorithm, much much more better.
     def sospa(location)
-      totle   = location.to_i
-      new_str = location[1..-1]
-      chu     = (new_str.length.to_f / totle).floor
-      yu      = new_str.length % totle
-      stor    = []
+      string    = location[1..-1]
+      col       = location[0].to_i
+      row       = (string.length.to_f / col).floor
+      remainder = string.length % col
+      address   = [[nil]*col]*(row+1)
 
-      i = 0
-      while i < yu do
-        index = (chu+1)*i
-        length = chu+1
-        stor[i] = new_str[index...index+length]
+      sizes = [row+1] * remainder + [row] * (col - remainder)
+      pos = 0
+      sizes.each_with_index { |size, i|
+        size.times { |index| address[col * index + i] = string[pos + index] }
+        pos += size
+      }
 
-        i+=1
-      end
-
-
-      i = yu
-      while i < totle do
-        index = chu*(i-yu)+(chu+1)*yu
-        length = chu
-
-        stor[i] = new_str[index...index+length]
-
-        i+=1
-      end
-
-      pin_str = ""
-      0.upto(stor[0].length-1) do |ii|
-        0.upto(stor.length-1) do |jj|
-          pin_str += stor[jj][ii...ii+1]
-        end
-      end
-
-      pin_str = rtan(pin_str)
-      return_str = ""
-
-      0.upto(pin_str.length-1) do |iii|
-        if pin_str[iii...iii+1]=='^'
-          return_str<<"0"
-        else
-          return_str<<pin_str[iii...iii+1]
-        end
-      end
-
-      return_str
+      address = CGI::unescape(address.join).gsub('^', '0')
+    rescue
+      raise location
     end
 
-    def rtan(str)
-      CGI::unescape(str)
-    end
   end
 end

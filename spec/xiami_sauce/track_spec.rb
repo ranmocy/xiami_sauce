@@ -9,7 +9,6 @@ describe XiamiSauce::Track do
   its('id') { should == '1770361274' }
   its('index') { should == '9' }
   its('name') { should == 'Kids (Unedited Version)' }
-  its('url') { should == 'http://f1.xiami.net/11768/454588/02_1770361274_2491919.mp3' }
   its('album_id') { should == '454588' }
   its('album_cover') { should == 'http://img.xiami.com/./images/album/img68/11768/4545881311563810_3.jpg' }
   its('album_name') { should == 'The Way I Am' }
@@ -17,4 +16,6 @@ describe XiamiSauce::Track do
   its('artist_name') { should == 'Eminem' }
 
   its('file_name') { should == '[Eminem-The Way I Am]09.Kids (Unedited Version).mp3' }
+
+  its('url') { should == 'http://f1.xiami.net/11768/454588/02_1770361274_2491919.mp3' }
 end
