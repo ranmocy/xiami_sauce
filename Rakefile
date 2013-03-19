@@ -10,7 +10,7 @@ Rake::VersionTask.new
 
 # include Rake::DSL if defined?(Rake::DSL)
 
-RVM_PREFIX = "rvm 1.8.7,1.9.3-p327,2.0.0 do"
+RVM_PREFIX = "rvm 1.9.3-p327,2.0.0 do"
 
 
 namespace :spec do
