@@ -33,8 +33,8 @@ describe XiamiSauce::TrackList do
 
     it "should parse url" do
       uri, type = subject.send(:parse_url, url)
-      uri.path.should == '/song/1770450682'
-      type.should == :song
+      expect(uri.path).to be == '/song/1770450682'
+      expect(type).to be == :song
     end
 
     it "should parse doc" do
@@ -43,7 +43,7 @@ describe XiamiSauce::TrackList do
       subject.instance_variable_set("@type", type)
       doc = subject.send(:parse_doc, uri)
       subject.instance_variable_set("@doc", doc)
-      subject.instance_variable_get("@doc").should be_kind_of Nokogiri::HTML::Document
+      expect(subject.instance_variable_get("@doc")).to be_kind_of Nokogiri::HTML::Document
     end
   end
 
@@ -76,7 +76,7 @@ describe XiamiSauce::TrackList do
     let(:b_list) { XiamiSauce::TrackList.new(b_url) }
 
     it "should be able to add" do
-      (a_list << b_list).list.should be == (a_list.list << b_list.list)
+      expect((a_list << b_list).list).to be == (a_list.list << b_list.list)
     end
   end
 end

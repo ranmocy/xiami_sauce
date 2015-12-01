@@ -6,16 +6,16 @@ describe XiamiSauce::Track do
 
   subject { XiamiSauce::Track.new(song_url, index) }
 
-  it { subject.id.should == '1770361274' }
-  it { subject.index.should == '9' }
-  it { subject.name.should == 'Kids (Unedited Version)' }
-  it { subject.album_id.should == '454588' }
-  it { subject.album_cover.should == 'http://img.xiami.com/./images/album/img68/11768/4545881311563810_3.jpg' }
-  it { subject.album_name.should == 'The Way I Am' }
-  it { subject.artist_id.should == '11768' }
-  it { subject.artist_name.should == 'Eminem' }
+  it { expect(subject.id).to be == '1770361274' }
+  it { expect(subject.index).to be == '9' }
+  it { expect(subject.name).to be == 'Kids (Unedited Version)' }
+  it { expect(subject.album_id).to be == '454588' }
+  it { expect(subject.album_cover).to be == 'http://img.xiami.com/./images/album/img68/11768/4545881311563810_3.jpg' }
+  it { expect(subject.album_name).to be == 'The Way I Am' }
+  it { expect(subject.artist_id).to be == '11768' }
+  it { expect(subject.artist_name).to be == 'Eminem' }
 
-  it { subject.file_name.should == '[Eminem-The Way I Am]09.Kids (Unedited Version).mp3' }
+  it { expect(subject.file_name).to be == '[Eminem-The Way I Am]09.Kids (Unedited Version).mp3' }
 
-  it { subject.url.should == 'http://f1.xiami.net/11768/454588/02_1770361274_2491919.mp3' }
+  it { expect(subject.url).to be == 'http://f1.xiami.net/11768/454588/02_1770361274_2491919.mp3' }
 end
