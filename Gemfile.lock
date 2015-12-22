@@ -43,7 +43,7 @@ GEM
     mocha (0.13.3)
       metaclass (~> 0.0.1)
     nenv (0.2.0)
-    nokogiri (1.6.7)
+    nokogiri (1.6.7.1)
       mini_portile2 (~> 2.0.0.rc2)
     notiffany (0.0.8)
       nenv (~> 0.1)
@@ -95,4 +95,4 @@ DEPENDENCIES
   xiami_sauce!
 
 BUNDLED WITH
-   1.10.6
+   1.11.2
